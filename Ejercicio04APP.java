@@ -2,7 +2,6 @@ package ejercicio04;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-
 import javax.swing.JOptionPane;
 
 public class Ejercicio04APP {
@@ -168,20 +167,19 @@ public class Ejercicio04APP {
 
 	}
 
-	// Este método añadira stock a nuestros productos.
+	// Este método se ejecutara solo cuando realicemos una venta y le restara a
+	// nuestro stock actual la cantidad que estamos vendiendo.
 	public static Hashtable<String, Integer> editarStockVenta(Hashtable<String, Integer> stock, String nombre,
 			int cantidad) {
 
-		// He tenido que poner este if que controle que el stock no sea null porque en
-		// caso de ser null se queda pillado y no cambia el valor.
-		if (stock.get(nombre) != null) {
-			stock.replace(nombre, (stock.get(nombre) - cantidad));
-		} else {
-			// Y en caso de que sea null borramos el stock y lo generamos con los datos que
-			// nos han pasado.
-			stock.remove(nombre);
-			stock.put(nombre, (stock.get(nombre) - cantidad));
+		stock.replace(nombre, (stock.get(nombre) - cantidad));
+
+		// Aunque no tendría que pasar nunca que nos quedemos sin stock he añadido una
+		// alerta por si nos quedáramos sin.
+		if (stock.get(nombre) <= 0) {
+			JOptionPane.showMessageDialog(null, "Nos hemos quedado sin stock de " + nombre);
 		}
+
 		return stock;
 
 	}
