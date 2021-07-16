@@ -31,8 +31,8 @@ public class Ejercicio04APP {
 				val = pedirDouble("Introduzca el precio del producto.");
 				añadirProducto(dato, nom, val);
 
-				switch (pedirTexto("¿Desea introducir un stock al producto?\nSi No")) {
-				case "si":
+				switch (pedirNumero("¿Desea introducir un stock al producto?\n1) Si 2) No")) {
+				case 1:
 					stck = pedirNumero("Introduzca la cantidad en stock.");
 					editarStock(stock, nom, stck);
 					break;
@@ -168,6 +168,24 @@ public class Ejercicio04APP {
 
 	}
 
+	// Este método añadira stock a nuestros productos.
+	public static Hashtable<String, Integer> editarStockVenta(Hashtable<String, Integer> stock, String nombre,
+			int cantidad) {
+
+		// He tenido que poner este if que controle que el stock no sea null porque en
+		// caso de ser null se queda pillado y no cambia el valor.
+		if (stock.get(nombre) != null) {
+			stock.replace(nombre, (stock.get(nombre) - cantidad));
+		} else {
+			// Y en caso de que sea null borramos el stock y lo generamos con los datos que
+			// nos han pasado.
+			stock.remove(nombre);
+			stock.put(nombre, (stock.get(nombre) - cantidad));
+		}
+		return stock;
+
+	}
+
 	// Este método es el carro de la compra, se ocupará de ir guardando las
 	// cantidades compradas.
 	public static Hashtable<String, Integer> carritoCompra() {
@@ -223,7 +241,7 @@ public class Ejercicio04APP {
 				finalizar = true;
 				break;
 			case 2:
-				precioNeto = precioBruto + (precioBruto * 0.4);
+				precioNeto = precioBruto + (precioBruto * 0.04);
 				ivaAplicado = "4%";
 				finalizar = true;
 				break;
@@ -242,6 +260,7 @@ public class Ejercicio04APP {
 				String el1 = e.nextElement();
 				if (!el1.equals("")) {
 					System.out.println(el1 + " -------- " + carrito.get(el1));
+					editarStockVenta(stock, el1, carrito.get(el1));
 				}
 			}
 
