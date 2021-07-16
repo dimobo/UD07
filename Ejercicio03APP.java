@@ -9,6 +9,52 @@ public class Ejercicio03APP {
 
 	public static void main(String[] args) {
 
+		Hashtable<String, Double> dato = baseDatos();
+		Hashtable<String, Integer> stock = baseStock();
+
+		boolean fin = false;
+		String nom = "";
+		double val = 0;
+		int stck = 0;
+
+		while (fin == false) {
+
+			switch (pedirNumero(
+					"¿Qué acción desea realizar?\n1) Añadir productos.\n2) Editar stock.\n3) Consultar la base de datos.\n4) Salir")) {
+			case 1:
+				nom = pedirTexto("Introduzca el nombre del producto.");
+				val = pedirDouble("Introduzca el precio del producto.");
+				añadirProducto(dato, nom, val);
+
+				switch (pedirTexto("¿Desea introducir un stock al producto?\nSi No")) {
+				case "si":
+					stck = pedirNumero("Introduzca la cantidad en stock.");
+					editarStock(stock, nom, stck);
+					break;
+
+				default:
+					editarStock(stock, nom, 0);
+					break;
+				}
+
+				break;
+			case 2:
+				nom = pedirTexto("Introduzca el nombre del producto.");
+				stck = pedirNumero("Introduzca la cantidad en stock.");
+				editarStock(stock, nom, stck);
+				break;
+			case 3:
+				mostrarDatos(dato, stock);
+				break;
+			case 4:
+				fin = true;
+				break;
+			default:
+				break;
+			}
+
+		}
+
 	}
 
 	// Este método es nuestra base de datos recién ejecutado el programa.
@@ -80,16 +126,23 @@ public class Ejercicio03APP {
 	}
 
 	// Este método añadirá productos nuevos a la base de datos.
-	public static Hashtable<String, Double> añadirProducto(Hashtable<String, Double> dato) {
-
+	public static Hashtable<String, Double> añadirProducto(Hashtable<String, Double> dato, String nombre,
+			double precio) {
+		dato.put(nombre, precio);
 		return dato;
 
 	}
-	
-	// Este método añadira stock a nuestros productos.
-	public static Hashtable<String, Integer> añadirstock(Hashtable<String, Integer> dato, String prod) {
 
-		return dato;
+	// Este método añadira stock a nuestros productos.
+	public static Hashtable<String, Integer> editarStock(Hashtable<String, Integer> stock, String nombre,
+			int cantidad) {
+		if (stock.get(nombre) != null) {
+			stock.replace(nombre, cantidad);
+		} else {
+			stock.remove(nombre);
+			stock.put(nombre, cantidad);
+		}
+		return stock;
 
 	}
 
