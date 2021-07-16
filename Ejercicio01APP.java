@@ -1,6 +1,7 @@
 package Ejercicio01;
 
-import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import javax.swing.JOptionPane;
 
 public class Ejercicio01APP {
@@ -10,33 +11,52 @@ public class Ejercicio01APP {
 
 	}
 
+	// Este método es el menú que dependiendo de que acción queremos realizar
+	// ejecutara unos métodos u otros.
 	public static void menu() {
-		ArrayList<Double> alumno = new ArrayList<>();
-		boolean bucMenu = false;
 
+		// Aquí estamos creando la hash table de java donde guardaremos las notas de los
+		// alumnos que crearemos.
+		Hashtable<String, Double> alumno = new Hashtable<String, Double>();
+		boolean bucMenu = false;
+		int alum = 0;
+
+		// Aquí empieza el menú propiamente dicho.
 		while (bucMenu == false) {
 			int menu = Integer.parseInt(JOptionPane
-					.showInputDialog("\n\n¿Qué operación desea hacer?\r\n" + "1) Añadir notas de un alumno.\r\n"
-							+ "2) Ver las notas de los alumnos.\r\n" + "3) Salir del programa."));
+					.showInputDialog("\n\n¿Qué operación desea hacer?\r\n" + "   1) Añadir notas de un alumno.\r\n"
+							+ "   2) Ver las notas de los alumnos.\r\n" + "   3) Salir del programa."));
 
 			switch (menu) {
+
+			// Este caso es el que generara el alumno con su media de notas.
 			case 1:
-				alumno.add(calcMedia());
+				alumno.put(String.valueOf(alum), calcMedia());
+				alum++;
 				break;
 
+			// Este caso nos mostrará por pantalla (he evitado usar jpanel en este punto
+			// para evitar spam) los alumnos introducidos.
 			case 2:
-//				for (int i = 0; i < alumno.size(); i++) {
-//					
-//				}
-				JOptionPane.showMessageDialog(null, alumno.toString());
+				alum = 1;
+
+				Enumeration<Double> e = alumno.elements();
+				while (e.hasMoreElements()) {
+					System.out.println("Alumno " + alum + ": " + e.nextElement());
+					alum++;
+				}
+
 				break;
 
+			// Este caso nos va a permitir salir del programa.
 			case 3:
 				bucMenu = true;
 				break;
 
+			// El default lo usamos como mensaje de error en caso de que alguien haya
+			// escrito mal la opción.
 			default:
-				JOptionPane.showMessageDialog(null, "Valor introducido no válido.");
+				JOptionPane.showMessageDialog(null, "Valor introducido no válido.\nLas opciones son 1, 2 y 3");
 			}
 
 		}
@@ -52,11 +72,16 @@ public class Ejercicio01APP {
 
 		while (true) {
 			String dato = JOptionPane.showInputDialog(text);
+
 			if (!dato.equals(null)) {
-				num = Double.parseDouble(dato);
-				if (num > 0) {
-					return num;
-				} else {
+				try {
+					num = Double.parseDouble(dato);
+					if (num > 0) {
+						return num;
+					} else {
+						JOptionPane.showMessageDialog(null, "Valor introducido no válido.");
+					}
+				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "Valor introducido no válido.");
 				}
 			} else {
@@ -93,7 +118,6 @@ public class Ejercicio01APP {
 
 		media = media / notas.length;
 		return media;
-
 	}
 
 }
