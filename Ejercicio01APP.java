@@ -1,4 +1,4 @@
-package Ejercicio01;
+package ejercicio01;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

@@ -1,4 +1,4 @@
-package Ejercicio03;
+package ejercicio03;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
