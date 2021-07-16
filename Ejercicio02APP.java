@@ -42,7 +42,7 @@ public class Ejercicio02APP {
 				finalizar = true;
 				break;
 			case 2:
-				precioNeto = precioBruto + (precioBruto * 0.4);
+				precioNeto = precioBruto + (precioBruto * 0.04);
 				ivaAplicado = "4%";
 				finalizar = true;
 				break;
