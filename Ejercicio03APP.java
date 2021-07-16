@@ -9,18 +9,24 @@ public class Ejercicio03APP {
 
 	public static void main(String[] args) {
 
+		// Aquí guardamos las bases de datos para tenerlas durante la ejecución del
+		// programa.
 		Hashtable<String, Double> dato = baseDatos();
 		Hashtable<String, Integer> stock = baseStock();
 
+		// Las siguientes variables son las que necesitaremos para ejecutar el menú del
+		// programa.
 		boolean fin = false;
 		String nom = "";
 		double val = 0;
 		int stck = 0;
 
+		// Este bucle con el switch es nuestro menú principal.
 		while (fin == false) {
-
 			switch (pedirNumero(
 					"¿Qué acción desea realizar?\n1) Añadir productos.\n2) Editar stock.\n3) Consultar la base de datos.\n4) Salir")) {
+			// Este caso nos genera un producto y luego nos pregunta que si queremos generar
+			// un stock para el producto.
 			case 1:
 				nom = pedirTexto("Introduzca el nombre del producto.");
 				val = pedirDouble("Introduzca el precio del producto.");
@@ -31,25 +37,31 @@ public class Ejercicio03APP {
 					stck = pedirNumero("Introduzca la cantidad en stock.");
 					editarStock(stock, nom, stck);
 					break;
-
+				// Aunque el cliente diga que no quiere generar un stock para el producto
+				// crearemos uno igualmente a 0 para evitar posibles errores de ejecución.
 				default:
 					editarStock(stock, nom, 0);
 					break;
 				}
-
 				break;
+			// Esta opción nos pedirá los datos para cambiar el stock de un producto ya
+			// existente.
 			case 2:
 				nom = pedirTexto("Introduzca el nombre del producto.");
 				stck = pedirNumero("Introduzca la cantidad en stock.");
 				editarStock(stock, nom, stck);
 				break;
+			// Esta opción nos llevará a un menú aparte donde podremos escoger si queremos
+			// ver solo un producto de la base de datos o todos.
 			case 3:
 				mostrarDatos(dato, stock);
 				break;
+			// Esta opción nos dejará salir del bucle y finalizar el programa.
 			case 4:
 				fin = true;
 				break;
 			default:
+				JOptionPane.showMessageDialog(null, "Valor introducido no válido.\nHas de introducir del 1 al 4.");
 				break;
 			}
 
@@ -104,12 +116,14 @@ public class Ejercicio03APP {
 		String el1 = "";
 
 		switch (pedirNumero("1) Un solo producto.\n 2) Todos los productos.")) {
+		// Este caso es para ver solo un producto.
 		case 1:
 			el1 = pedirTexto("Que producto quieres comprobar: ");
 			System.out.println(el1 + "  " + dato.get(el1) + "€, quedan " + stock.get(el1) + " en stock");
 
 			break;
 
+		// En este caso creamos un bucle para mostrar toda la base de datos.
 		case 2:
 			Enumeration<String> e = dato.keys();
 			while (e.hasMoreElements()) {
@@ -136,9 +150,14 @@ public class Ejercicio03APP {
 	// Este método añadira stock a nuestros productos.
 	public static Hashtable<String, Integer> editarStock(Hashtable<String, Integer> stock, String nombre,
 			int cantidad) {
+
+		// He tenido que poner este if que controle que el stock no sea null porque en
+		// caso de ser null se queda pillado y no cambia el valor.
 		if (stock.get(nombre) != null) {
 			stock.replace(nombre, cantidad);
 		} else {
+			// Y en caso de que sea null borramos el stock y lo generamos con los datos que
+			// nos han pasado.
 			stock.remove(nombre);
 			stock.put(nombre, cantidad);
 		}
