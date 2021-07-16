@@ -1,7 +1,6 @@
 package Ejercicio01;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public class Ejercicio01APP {
@@ -17,9 +16,8 @@ public class Ejercicio01APP {
 
 		// Aquí estamos creando la hash table de java donde guardaremos las notas de los
 		// alumnos que crearemos.
-		Hashtable<String, Double> alumno = new Hashtable<String, Double>();
+		ArrayList<Double> alumno = new ArrayList<Double>();
 		boolean bucMenu = false;
-		int alum = 0;
 
 		// Aquí empieza el menú propiamente dicho.
 		while (bucMenu == false) {
@@ -31,19 +29,15 @@ public class Ejercicio01APP {
 
 			// Este caso es el que generara el alumno con su media de notas.
 			case 1:
-				alumno.put(String.valueOf(alum), calcMedia());
-				alum++;
+				alumno.add(calcMedia());
 				break;
 
 			// Este caso nos mostrará por pantalla (he evitado usar jpanel en este punto
 			// para evitar spam) los alumnos introducidos.
 			case 2:
-				alum = 1;
 
-				Enumeration<Double> e = alumno.elements();
-				while (e.hasMoreElements()) {
-					System.out.println("Alumno " + alum + ": " + e.nextElement());
-					alum++;
+				for (int i = 0; i < alumno.size(); i++) {
+					System.out.println("Alumno " + (i + 1) + ": " + alumno.get(i));
 				}
 
 				break;
